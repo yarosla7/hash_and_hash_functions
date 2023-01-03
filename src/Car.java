@@ -28,7 +28,7 @@ public class Car {
         } else {
             this.country = country;
         }
-        if (engineVolume >= 0) {
+        if (engineVolume > 0) {
             this.engineVolume = engineVolume;
         } else {
             this.engineVolume = 1.5;
