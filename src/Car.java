@@ -8,22 +8,22 @@ public class Car {
 
     Car(String brand, String model, double engineVolume, String color, int year, String country) {
 
-        if (brand.equals(" ") || brand.isBlank()) {
+        if (brand == null || brand.isBlank() || brand.isEmpty()) {
             this.brand = "default";
         } else {
             this.brand = brand;
         }
-        if (model.equals(" ") || model.isBlank()) {
+        if (model == null || model.isBlank() || model.isEmpty()) {
             this.model = "default";
         } else {
             this.model = model;
         }
-        if (color.equals(" ") || color.isBlank()) {
+        if (color == null || color.isBlank() || color.isEmpty()) {
             this.color = "white";
         } else {
             this.color = color;
         }
-        if (country.equals(" ") || country.isBlank()) {
+        if (country == null || country.isBlank() || country.isEmpty()) {
             this.country = "default";
         } else {
             this.country = country;
