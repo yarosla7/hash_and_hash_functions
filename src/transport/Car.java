@@ -17,6 +17,9 @@ public class Car {
     private boolean isWinterTires;
     private int month; // Дополнительное поле для метода по смене шин. Знаю, что мог бы и без него, но решил добавить.
 
+    private Key key;
+    // Так же идея рекомендует сделать это поле static, но в рамках задачи это не нужно
+
     public Car(String brand,
                String model,
                double engineVolume,
@@ -89,6 +92,27 @@ public class Car {
 
     public static int getCountCars() {
         return countCars;
+    } //поле создано, чтобы заполнять этим число поле регистрационный номер, в случае его некорректного значения.
+
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
+
+    public String getBodyType() {
+        if (bodyType == null || bodyType.isEmpty() || bodyType.isBlank()) {
+            return "default";
+        } else if (bodyType.equals("Jeep") ||
+                bodyType.equals("Hatchback") || bodyType.equals("Sedan") || bodyType.equals("Coupe") ||
+                bodyType.equals("Wagon") || bodyType.equals("Van") || bodyType.equals("MUV/SUV") ||
+                bodyType.equals("Convertible")) {
+            return bodyType;
+        } else {
+            return "default";
+        }
     }
 
     public String getBrand() {
@@ -151,17 +175,12 @@ public class Car {
         isWinterTires = winterTires;
     }
 
-    public String getBodyType() {
-        if (bodyType == null || bodyType.isEmpty() || bodyType.isBlank()) {
-            return  "default";
-        } else if (bodyType.equals("Jeep") ||
-                bodyType.equals("Hatchback") || bodyType.equals("Sedan") || bodyType.equals("Coupe") ||
-                bodyType.equals("Wagon") || bodyType.equals("Van") || bodyType.equals("MUV/SUV") ||
-                bodyType.equals("Convertible")) {
-            return bodyType;
-        } else {
-            return "default";
-        }
+    @Override
+    public String toString() {
+        return "\n" + brand + " " + model + ", " + year + " — realise year, manufacturer country is " + country + ", body color is "
+                + color + ", engine volume — " + engineVolume + " liters" +
+                "\nAutomatic Transmission: " + isAutomaticTransmission + ", body type is " + bodyType + ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\nWinter Tires: " + isWinterTires +
+                "\nRemote Engine Start: " + key.remoteEngineStart + "\nKeyless Access: " + key.keylessAccess;
     }
 
     public int getRegistrationNumber() {
@@ -182,17 +201,32 @@ public class Car {
     }
 
     public void changeTiresForSeason() {
-        if (getMonth() <= 3 || getMonth() == 12) {
-            isWinterTires = true;
-        } else {
-            isWinterTires = false;
-        }
+        isWinterTires = getMonth() <= 3 || getMonth() == 12;
     } // тут идея почему-то предлагает упростить и полностью убрать оператор if
 
-    @Override
-    public String toString() {
-        return brand + " " + model + ", " + year + " — realise year, manufacturer country is " + country + ", body color is "
-                + color + ", engine volume — " + engineVolume + " liters" +
-                "\n Automatic Transmission: " + isAutomaticTransmission + ", body type is " + bodyType + ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\n Winter Tires: " + isWinterTires;
-    }
+    public class Key {
+        private final boolean remoteEngineStart;
+        private final boolean keylessAccess;
+
+        public Key(boolean remoteEngineStart, boolean keylessAccess) {
+            this.remoteEngineStart = remoteEngineStart;
+            this.keylessAccess = keylessAccess;
+        }
+
+        public boolean isRemoteEngineStart() {
+            return remoteEngineStart;
+        }
+
+        public boolean isKeylessAccess() {
+            return keylessAccess;
+        }
+
+        @Override
+        public String toString() {
+            return "Key{" +
+                    "remoteEngineStart=" + remoteEngineStart +
+                    ", keylessAccess=" + keylessAccess +
+                    '}';
+        }
+    } // По заданию был создан данный класс. Проверку на вводимые параметры делать не стал, так как boolean значение не может быть ничем другим кроме как true & false.
 }
