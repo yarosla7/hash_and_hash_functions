@@ -1,6 +1,7 @@
 package transport;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Car {
     private static int countCars;
@@ -15,10 +16,7 @@ public class Car {
     private int registrationNumber;
     private final int countOfSeats;
     private boolean isWinterTires;
-    private int month; // Дополнительное поле для метода по смене шин. Знаю, что мог бы и без него, но решил добавить.
-
     private Key key;
-    // Так же идея рекомендует сделать это поле static, но в рамках задачи это не нужно
 
     public Car(String brand,
                String model,
@@ -30,7 +28,7 @@ public class Car {
                String bodyType,
                int registrationNumber,
                int countOfSeats,
-               boolean isWinterTires) {
+               boolean isWinterTires, Key key) {
 
         if (brand == null || brand.isBlank() || brand.isEmpty()) {
             this.brand = "default";
@@ -87,8 +85,25 @@ public class Car {
         } else {
             this.countOfSeats = countOfSeats;
         }
+        this.key = Objects.requireNonNullElseGet(key, Key::new);
         countCars++;
-    } // Все данные вносятся в один конструктор, так как я не понял, зачем делать множество конструкторов, когда всё можно уместить в одном.
+    }
+
+    public Car(String brand, String model, double engineVolume, int year) {
+        this(brand,
+                model,
+                engineVolume,
+                null,
+                year,
+                null,
+                false,
+                null,
+                0,
+                0,
+                false,
+                new Key());
+        countCars++;
+    }
 
     public static int getCountCars() {
         return countCars;
@@ -99,7 +114,11 @@ public class Car {
     }
 
     public void setKey(Key key) {
-        this.key = key;
+        if (key == null) {
+            key = new Key();
+        } else {
+            this.key = key;
+        }
     }
 
     public String getBodyType() {
@@ -175,14 +194,6 @@ public class Car {
         isWinterTires = winterTires;
     }
 
-    @Override
-    public String toString() {
-        return "\n" + brand + " " + model + ", " + year + " — realise year, manufacturer country is " + country + ", body color is "
-                + color + ", engine volume — " + engineVolume + " liters" +
-                "\nAutomatic Transmission: " + isAutomaticTransmission + ", body type is " + bodyType + ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\nWinter Tires: " + isWinterTires +
-                "\nRemote Engine Start: " + key.remoteEngineStart + "\nKeyless Access: " + key.keylessAccess;
-    }
-
     public int getRegistrationNumber() {
         return registrationNumber;
     }
@@ -196,21 +207,32 @@ public class Car {
     }
 
     public int getMonth() {
-        month = LocalDate.now().getMonthValue();
-        return month;
+        return LocalDate.now().getMonthValue();
     }
 
     public void changeTiresForSeason() {
         isWinterTires = getMonth() <= 3 || getMonth() == 12;
-    } // тут идея почему-то предлагает упростить и полностью убрать оператор if
+    } // оказывается и без if всё работает
 
-    public class Key {
+    @Override
+    public String toString() {
+        return "\n" + brand + " " + model + ", " + year + " — realise year, manufacturer country is " + country + ", body color is "
+                + color + ", engine volume — " + engineVolume + " liters." +
+                "\nTransmission: " + (isAutomaticTransmission ? "Automatic" : "Manual") + ", body type is " + bodyType + ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\nTires: " + (isWinterTires ? "Winter Tires." : "Summer Tires.") +
+                "\nRemote Engine Start: " + (key.remoteEngineStart ? "Remote." : "Non-remote.") + "\nKeyless Access: " + (key.keylessAccess ? "Keyless." : "Non-keyless.");
+    }
+
+    public static class Key {
         private final boolean remoteEngineStart;
         private final boolean keylessAccess;
 
         public Key(boolean remoteEngineStart, boolean keylessAccess) {
             this.remoteEngineStart = remoteEngineStart;
             this.keylessAccess = keylessAccess;
+        }
+
+        public Key() {
+            this(false, false);
         }
 
         public boolean isRemoteEngineStart() {
@@ -228,5 +250,5 @@ public class Car {
                     ", keylessAccess=" + keylessAccess +
                     '}';
         }
-    } // По заданию был создан данный класс. Проверку на вводимые параметры делать не стал, так как boolean значение не может быть ничем другим кроме как true & false.
+    } // По заданию был создан данный класс.
 }
