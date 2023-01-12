@@ -1,6 +1,9 @@
 package transport;
 
-public class Car extends Transport {
+import driver.LicenseB;
+
+public class Car<B extends LicenseB> extends Transport { // не уверен, что правильно написал, но работает
+    private B driver; // на уроке прописали это, но пока не понятно, зачем
 
     public Car(String brand, String model, double engineVolume) {
         super(brand, model, engineVolume);
@@ -18,14 +21,22 @@ public class Car extends Transport {
     public void endMoving() {
         System.out.println(getBrand() + " " + getModel() + " slows down.");
         System.out.println(getBrand() + " " + getModel() + "  has stopped.");
-    }
+    } //желательно их убрать вообще, так как машины получается поедут без водителей и привязать классы автомобилей к водителю
 
     @Override
     public String toString() {
         return "Car " + super.toString();
     }
 
-
     //методы интерфейса в родительском классе. так как методы интерфейса по сути несут информацию общего характера для каждого объекта, переопределять методы под классы наследники не стал.
 
+    //методы водителя для взаимодействия с автомобилем:
+
+    public void willParticipate(B driver) {
+        if (driver.isHasDrivesLicense()) {
+            System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
+        } else {
+            System.out.println("Driver " + driver.getFullName() + " excluded.");
+        }
+    }
 }

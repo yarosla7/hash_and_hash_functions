@@ -1,4 +1,5 @@
 package transport;
+import driver.LicenseB;
 
 import java.util.Objects;
 
@@ -45,6 +46,10 @@ public abstract class Transport implements Competing {
         }
     }
 
+    public void startMoving(LicenseB driver) {
+
+    }
+
     public abstract void startMoving();
 
     public abstract void endMoving();
@@ -52,8 +57,8 @@ public abstract class Transport implements Competing {
     @Override
     public String toString() {
         return brand + ' ' +
-                ", model= " + model + ' ' +
-                ", engineVolume= " + engineVolume;
+                ", model: " + model + ' ' +
+                ", engineVolume: " + engineVolume;
     }
 
     @Override
@@ -68,6 +73,8 @@ public abstract class Transport implements Competing {
     public int hashCode() {
         return Objects.hash(brand, model, engineVolume);
     }
+
+    // методы интерфейса:
 
     @Override
     public void pitStop() {
