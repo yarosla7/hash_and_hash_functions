@@ -2,8 +2,7 @@ package transport;
 
 import driver.LicenseB;
 
-public class Car<B extends LicenseB> extends Transport { // не уверен, что правильно написал, но работает
-    private B driver; // на уроке прописали это, но пока не понятно, зачем
+public class Car extends Transport { // не уверен, что правильно написал, но работает
 
     public Car(String brand, String model, double engineVolume) {
         super(brand, model, engineVolume);
@@ -32,7 +31,8 @@ public class Car<B extends LicenseB> extends Transport { // не уверен, �
 
     //методы водителя для взаимодействия с автомобилем:
 
-    public void willParticipate(B driver) {
+    public void willParticipate(LicenseB driver) {
+
         if (driver.isHasDrivesLicense()) {
             System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
         } else {

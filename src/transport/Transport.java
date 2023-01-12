@@ -1,13 +1,13 @@
 package transport;
-import driver.LicenseB;
 
-import java.util.Objects;
+import driver.Driver;
 
-public abstract class Transport implements Competing {
+public abstract class Transport<D extends Driver> implements Competing {
 
     private final String brand;
     private final String model;
     private double engineVolume;
+    private D driver;
 
     public Transport(String brand, String model, double engineVolume) {
         if (brand == null || brand.isEmpty() || brand.isBlank()) {
@@ -46,10 +46,6 @@ public abstract class Transport implements Competing {
         }
     }
 
-    public void startMoving(LicenseB driver) {
-
-    }
-
     public abstract void startMoving();
 
     public abstract void endMoving();
@@ -61,18 +57,6 @@ public abstract class Transport implements Competing {
                 ", engineVolume: " + engineVolume;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transport transport = (Transport) o;
-        return Double.compare(transport.engineVolume, engineVolume) == 0 && Objects.equals(brand, transport.brand) && Objects.equals(model, transport.model);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(brand, model, engineVolume);
-    }
 
     // методы интерфейса:
 
@@ -94,5 +78,10 @@ public abstract class Transport implements Competing {
     @Override
     public void crashed() {
         System.out.println(this + " has crashed.");
+    }
+
+    // driver
+    public void willParticipate(D driver) {
+
     }
 }

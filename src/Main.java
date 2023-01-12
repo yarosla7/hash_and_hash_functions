@@ -8,22 +8,22 @@ import transport.Truck;
 public class Main {
     public static void main(String[] args) {
 
-        Bus<driver.LicenseD> paz = new Bus<>("ПАЗ", "4234", 4.3);
-        Bus<driver.LicenseD> manBus = new Bus<>("MAN", "Lion's City", 5.6);
-        Bus<driver.LicenseD> liaz = new Bus<>("ЛиАЗ", "4292", 4.4);
-        Bus<driver.LicenseD> maz = new Bus<>("МАЗ", "232", 5.3);
+        Bus paz = new Bus("ПАЗ", "4234", 4.3);
+        Bus manBus = new Bus("MAN", "Lion's City", 5.6);
+        Bus liaz = new Bus("ЛиАЗ", "4292", 4.4);
+        Bus maz = new Bus("МАЗ", "232", 5.3);
 
 
-        Car<LicenseB> aston = new Car<>("Aston Martin", "DB9 Carbon", 3.6);
-        Car<LicenseB> audi = new Car<>("Audi", "S1 Quattro", 4.4);
-        Car<LicenseB> tesla = new Car<>("Tesla", "Model S", 3.2);
-        Car<LicenseB> mercedes = new Car<>("Mercedes", "Benz S-Class", 4.2);
+        Car aston = new Car("Aston Martin", "DB9 Carbon", 3.6);
+        Car audi = new Car("Audi", "S1 Quattro", 4.4);
+        Car tesla = new Car("Tesla", "Model S", 3.2);
+        Car mercedes = new Car("Mercedes", "Benz S-Class", 4.2);
 
 
-        Truck<LicenseC> kamaz = new Truck<>("КамАЗ", "54901", 7.6);
-        Truck<LicenseC> sollers = new Truck<>("Sollers", "Argo", 4.6);
-        Truck<LicenseC> dongfeng = new Truck<>("Dongfeng", "Captain-T", 5.5);
-        Truck<LicenseC> manTruck = new Truck<>("MAN", "TGS 6X6", 7.9);
+        Truck kamaz = new Truck("КамАЗ", "54901", 7.6);
+        Truck sollers = new Truck("Sollers", "Argo", 4.6);
+        Truck dongfeng = new Truck("Dongfeng", "Captain-T", 5.5);
+        Truck manTruck = new Truck("MAN", "TGS 6X6", 7.9);
 
 //        aston.startMoving();
 //        aston.maxSpeed();

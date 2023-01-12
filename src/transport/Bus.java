@@ -2,8 +2,7 @@ package transport;
 
 import driver.LicenseD;
 
-public class Bus<D extends LicenseD> extends Transport {
-    private D driver; // на уроке прописали это, но пока не понятно, зачем
+public class Bus extends Transport {
 
     public Bus(String brand, String model, double engineVolume) {
         super(brand, model, engineVolume);
@@ -32,7 +31,7 @@ public class Bus<D extends LicenseD> extends Transport {
 
     //методы водителя для взаимодействия с автомобилем:
 
-    public void willParticipate(D driver) {
+    public void willParticipate(LicenseD driver) {
         if (driver.isHasDrivesLicense()) {
             System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
         } else {
