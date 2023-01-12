@@ -2,25 +2,32 @@ package transport;
 
 import driver.LicenseC;
 
-public class Truck extends Transport {
+public class Truck extends Transport<LicenseC> {
+
+    public Truck(String brand, String model, double engineVolume, LicenseC driver) {
+        super(brand, model, engineVolume, driver);
+    }
 
     public Truck(String brand, String model, double engineVolume) {
         super(brand, model, engineVolume);
-    }
+    } // Конструктор создан специально, если не указан водитель. На месте водителя так как не указано его имя будет генерироваться ошибка
+
 
     //методы родительского класса:
 
     @Override
     public void startMoving() {
+        getDriver().toDrive();
         System.out.println(getBrand() + " " + getModel() + " started the engine and started moving on a route.");
         System.out.println(getBrand() + " is moving right now.");
     }
 
     @Override
     public void endMoving() {
+        getDriver().stopVehicle();
         System.out.println(getBrand() + " " + getModel() + " slows down.");
         System.out.println(getBrand() + " " + getModel() + " has stopped.");
-    } //желательно их убрать вообще, так как машины получается поедут без водителей и привязать классы автомобилей к водителю
+    }
 
     @Override
     public String toString() {

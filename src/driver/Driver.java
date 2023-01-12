@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class Driver {
 
-    private final String fullName;
+    private final String fullName; // Да, fullName, но в дальнейшем мне будет лень писать ФИО. Так что удовлетворяя задаче пишу фулнейм, по факту нейм.
     private boolean hasDrivesLicense;
     private double experienceYear;
 
@@ -22,6 +22,10 @@ public abstract class Driver {
         this(fullName);
         this.hasDrivesLicense = hasDrivesLicense;
         setExperienceYear(experienceYear);
+    }
+
+    public Driver() {
+        this.fullName = null;
     }
 
     public String getFullName() {
@@ -52,9 +56,9 @@ public abstract class Driver {
 
     public void toDrive() {
         if (isHasDrivesLicense() || getExperienceYear() >= 0.1) {
-            System.out.println(getFullName() + " started the engine, pressed the pedal and drove");
+            System.out.println(getFullName() + " started the engine, pressed the pedal and drove.");
         } else {
-            System.out.println("No license = no drive");
+            System.out.println("No license = no drive.");
         }
     }
 
