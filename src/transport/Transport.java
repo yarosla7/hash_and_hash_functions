@@ -2,7 +2,7 @@ package transport;
 
 import java.util.Objects;
 
-public abstract class Transport {
+public abstract class Transport implements Competing {
 
     private final String brand;
     private final String model;
@@ -51,11 +51,9 @@ public abstract class Transport {
 
     @Override
     public String toString() {
-        return "Transport{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", engineVolume=" + engineVolume +
-                '}';
+        return brand + ' ' +
+                ", model= " + model + ' ' +
+                ", engineVolume= " + engineVolume;
     }
 
     @Override
@@ -69,5 +67,25 @@ public abstract class Transport {
     @Override
     public int hashCode() {
         return Objects.hash(brand, model, engineVolume);
+    }
+
+    @Override
+    public void pitStop() {
+        System.out.println(this + " went to the pit-stop.");
+    }
+
+    @Override
+    public void bestLapTime() {
+        System.out.println(this + " has best time lap.");
+    }
+
+    @Override
+    public void maxSpeed() {
+        System.out.println(this + " has maximal speed.");
+    }
+
+    @Override
+    public void crashed() {
+        System.out.println(this + " has crashed.");
     }
 }

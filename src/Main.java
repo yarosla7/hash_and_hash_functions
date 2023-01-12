@@ -22,5 +22,16 @@ public class Main {
         Truck dongfeng = new Truck("Dongfeng", "Captain-T", 5.5);
         Truck manTruck = new Truck("MAN", "TGS 6X6", 7.9);
 
+        aston.startMoving();
+        aston.maxSpeed();
+        aston.bestLapTime();
+        aston.crashed();
+
+        paz.startMoving();
+        paz.crashed();
+
+        kamaz.startMoving();
+        kamaz.pitStop();
+        kamaz.crashed();
     }
 }
