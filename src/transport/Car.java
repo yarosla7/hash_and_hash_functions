@@ -3,14 +3,9 @@ package transport;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Car {
+public class Car extends Transport {
     private static int countCars;
-    private final String brand;
-    private final String model;
     private double engineVolume;
-    private String color;
-    private final int year;
-    private final String country;
     private boolean isAutomaticTransmission;
     private final String bodyType;
     private int registrationNumber;
@@ -28,38 +23,12 @@ public class Car {
                String bodyType,
                int registrationNumber,
                int countOfSeats,
-               boolean isWinterTires, Key key) {
+               boolean isWinterTires,
+               int maxSpeed,
+               Key key) {
+        super(brand, model, year, country, color, maxSpeed);
 
-        if (brand == null || brand.isBlank() || brand.isEmpty()) {
-            this.brand = "default";
-        } else {
-            this.brand = brand;
-        }
-        if (model == null || model.isBlank() || model.isEmpty()) {
-            this.model = "default";
-        } else {
-            this.model = model;
-        }
-        if (color == null || color.isBlank() || color.isEmpty()) {
-            this.color = "white";
-        } else {
-            this.color = color;
-        }
-        if (country == null || country.isBlank() || country.isEmpty()) {
-            this.country = "default";
-        } else {
-            this.country = country;
-        }
-        if (engineVolume > 0) {
-            this.engineVolume = engineVolume;
-        } else {
-            this.engineVolume = 1.5;
-        }
-        if (year >= 0) {
-            this.year = year;
-        } else {
-            this.year = 2000;
-        }
+        setEngineVolume(engineVolume);
 
         this.isAutomaticTransmission = isAutomaticTransmission;
 
@@ -75,32 +44,32 @@ public class Car {
         } else {
             this.bodyType = "default";
         }
-        if (registrationNumber <= 0) {
-            this.registrationNumber = countCars;
-        } else {
-            this.registrationNumber = registrationNumber;
-        }
+
+        setRegistrationNumber(registrationNumber);
+
         if (countOfSeats <= 0) {
             this.countOfSeats = 4;
         } else {
             this.countOfSeats = countOfSeats;
         }
+
         this.key = Objects.requireNonNullElseGet(key, Key::new);
+
         countCars++;
     }
 
-    public Car(String brand, String model, double engineVolume, int year) {
-        this(brand,
-                model,
-                engineVolume,
-                null,
+    public Car(String brand, String model, int year, String country) {
+        this(brand, model,
+                1.5,
+                "white",
                 year,
-                null,
+                country,
                 false,
-                null,
+                "",
                 0,
-                0,
+                4,
                 false,
+                0,
                 new Key());
         countCars++;
     }
@@ -122,40 +91,11 @@ public class Car {
     }
 
     public String getBodyType() {
-        if (bodyType == null || bodyType.isEmpty() || bodyType.isBlank()) {
-            return "default";
-        } else if (bodyType.equals("Jeep") ||
-                bodyType.equals("Hatchback") || bodyType.equals("Sedan") || bodyType.equals("Coupe") ||
-                bodyType.equals("Wagon") || bodyType.equals("Van") || bodyType.equals("MUV/SUV") ||
-                bodyType.equals("Convertible")) {
-            return bodyType;
-        } else {
-            return "default";
-        }
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
+        return bodyType;
     }
 
     public double getEngineVolume() {
         return engineVolume;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public void setEngineVolume(double engineVolume) {
@@ -163,14 +103,6 @@ public class Car {
             this.engineVolume = engineVolume;
         } else {
             this.engineVolume = 1.5;
-        }
-    }
-
-    public void setColor(String color) {
-        if (color == null || color.isBlank() || color.isEmpty()) {
-            this.color = "white";
-        } else {
-            this.color = color;
         }
     }
 
@@ -216,9 +148,11 @@ public class Car {
 
     @Override
     public String toString() {
-        return "\n" + brand + " " + model + ", " + year + " — realise year, manufacturer country is " + country + ", body color is "
-                + color + ", engine volume — " + engineVolume + " liters." +
-                "\nTransmission: " + (isAutomaticTransmission ? "Automatic" : "Manual") + ", body type is " + bodyType + ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\nTires: " + (isWinterTires ? "Winter Tires." : "Summer Tires.") +
+        return "\n" + getBrand() + " " + getModel() + ", " + getYear() + " — realise year, manufacturer country is " + getCountry() + ", body color is "
+                + getColor() + ", engine volume — " + engineVolume + " liters. \n" + getMaxSpeed() + " km/h - max speed." +
+                "\nTransmission: " + (isAutomaticTransmission ? "Automatic" : "Manual") + ", body type is " + bodyType +
+                ", registration number - " + registrationNumber + ", seats: " + countOfSeats + "\nTires: "
+                + (isWinterTires ? "Winter Tires." : "Summer Tires.") +
                 "\nRemote Engine Start: " + (key.remoteEngineStart ? "Remote." : "Non-remote.") + "\nKeyless Access: " + (key.keylessAccess ? "Keyless." : "Non-keyless.");
     }
 
@@ -251,4 +185,17 @@ public class Car {
                     '}';
         }
     } // По заданию был создан данный класс.
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Double.compare(car.engineVolume, engineVolume) == 0 && isAutomaticTransmission == car.isAutomaticTransmission && registrationNumber == car.registrationNumber && countOfSeats == car.countOfSeats && isWinterTires == car.isWinterTires && Objects.equals(bodyType, car.bodyType) && Objects.equals(key, car.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(engineVolume, isAutomaticTransmission, bodyType, registrationNumber, countOfSeats, isWinterTires, key);
+    }
 }
