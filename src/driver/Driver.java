@@ -58,7 +58,7 @@ public abstract class Driver {
         if (isHasDrivesLicense() || getExperienceYear() >= 0.1) {
             System.out.println(getFullName() + " started the engine, pressed the pedal and drove.");
         } else {
-            System.out.println("No license = no drive.");
+            System.out.println("No license B = no drive.");
         }
     }
 

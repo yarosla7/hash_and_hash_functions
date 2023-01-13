@@ -62,17 +62,17 @@ public abstract class Transport<D extends Driver> implements Competing {
         }
     }
 
-    public abstract void startMoving();
+    public void startMoving() {
+        getDriver().toDrive();
+        System.out.println(getBrand() + " " + getModel() + " started the engine and started moving on a route with all stops.");
+        System.out.println(getBrand() + " is moving right now.");
+    }
 
-    /**
-     * можно как-то написать тут блок кода, чтобы наследовать данный метод не изменяя?
-     */
-
-    public abstract void endMoving();
-
-    /**
-     * можно как-то написать тут блок кода, чтобы наследовать данный метод не изменяя?
-     */
+    public void endMoving() {
+        getDriver().stopVehicle();
+        System.out.println(getBrand() + " " + getModel() + " slows down.");
+        System.out.println(getBrand() + " " + getModel() + "  has stopped.");
+    }
 
     @Override
     public String toString() {
@@ -117,6 +117,10 @@ public abstract class Transport<D extends Driver> implements Competing {
 
     // driver
     public void willParticipate(D driver) {
-
-    } /** можно как-то написать тут блок кода, чтобы наследовать данный метод не изменяя?*/
+        if (driver.isHasDrivesLicense()) {
+            System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
+        } else {
+            System.out.println("Driver " + driver.getFullName() + " excluded.");
+        }
+    }
 }
