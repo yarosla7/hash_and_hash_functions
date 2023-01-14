@@ -1,56 +1,107 @@
+import driver.LicenseB;
+import driver.LicenseC;
+import driver.LicenseD;
 import transport.Bus;
 import transport.Car;
-import transport.Moto;
+import transport.Truck;
 
 public class Main {
     public static void main(String[] args) {
 
-        //cars
+        Bus paz = new Bus("ПАЗ", "4234", 4.3, new LicenseD("Dilan", true, 6));
+        Bus manBus = new Bus("MAN", "Lion's City", 5.6, new LicenseD("Fagot"));
+        Bus liaz = new Bus("ЛиАЗ", "4292", 4.4);
+        Bus maz = new Bus("МАЗ", "232", 5.3);
 
-        Car lada = new Car("Lada", "Granta", 1.7, "black ", 2015, " ", false, "Sedan", 234, 4, false, 144, new Car.Key(false, true));
-        lada.changeTiresForSeason();
-        lada.setAutomaticTransmission(true);
-        System.out.println("\nlada = " + lada);
 
-        Car audi = new Car("Audi", "A8 50L TDI quattro", 3.0, "black", 2020, "Germany", true, "Hatchback", 4335, 4, true, 240, new Car.Key(true, true));
-        audi.changeTiresForSeason();
-        System.out.println("\naudi = " + audi);
+        Car aston = new Car("Aston Martin", "DB9 Carbon", 3.6, new LicenseB("Mike", true, 3));
+        Car audi = new Car("Audi", "S1 Quattro", 4.4);
+        Car tesla = new Car("Tesla", "Model S", 3.2, new LicenseB("Alex", true, 2));
+        Car mercedes = new Car("Mercedes", "Benz S-Class", 4.2);
 
-        Car bmw = new Car("BMW", "Z8", 3.0, "black", 2021, "Germany", true, "Jeep", 4321, 4, false, 0, new Car.Key());
-        bmw.changeTiresForSeason();
-        System.out.println("\nbmw = " + bmw);
 
-        Car kia = new Car("Kia", "Sportage 4th generation", 2018, "South Korea");
-        kia.changeTiresForSeason();
-        System.out.println("\nkia = " + kia);
+        Truck kamaz = new Truck("КамАЗ", "54901", 7.6, new LicenseC("John", true, 4));
+        Truck sollers = new Truck("Sollers", "Argo", 4.6);
+        Truck dongfeng = new Truck("Dongfeng", "Captain-T", 5.5);
+        Truck manTruck = new Truck("MAN", "TGS 6X6", 7.9, new LicenseC("Dick", true, 4));
+//testing:
+        aston.startMoving();
+        aston.maxSpeed();
+        aston.bestLapTime();
+        aston.crashed();
 
-        Car hyundai = new Car("Hyundai", "Avante", 1.6, "orange", 2016, "South Korea", true, "Wagon", 8767, 4, false, 244, new Car.Key(false, true));
-        hyundai.changeTiresForSeason();
-        System.out.println("\nhyundai = " + hyundai);
+        paz.startMoving();
+        paz.crashed();
 
-        Car myCar = new Car("", "", 0, "", -100, "", true, "", 0, 0, true, 0, new Car.Key());
-        myCar.changeTiresForSeason();
-        System.out.println("\nemptyCar = " + myCar);
+        kamaz.startMoving();
+        kamaz.pitStop();
+        kamaz.crashed();
+//============================================
+        LicenseD morgan = new LicenseD("Morgan", true, 5);
+        LicenseD dilan = new LicenseD("Dilan", true, 6);
+        LicenseB logan = new LicenseB("Logan");
 
-        Car honda = new Car("Honda", "Civic", 2015, "");
-        honda.changeTiresForSeason();
-        System.out.println("\nhonda = " + honda);
+        kamaz.willParticipate(kamaz.getDriver());
+        aston.willParticipate(aston.getDriver());
+        tesla.willParticipate(tesla.getDriver());
+        manTruck.willParticipate(manTruck.getDriver());
+        paz.willParticipate(dilan);
+        paz.willParticipate(paz.getDriver());
+        liaz.willParticipate(dilan); // проверка, что один и тот же водитель (Дилан) может быть создан и через конструктор транспорта
+        // так и отдельно, и пересесть в другой транспорт, если проинициализирован отдельно как объект
+        manBus.willParticipate(morgan);
+        audi.willParticipate(logan);
+        //System.out.println("sollers.getDriver() = " + sollers.getDriver());//проверка на ошибку если хотят посмотреть водителя машины,
+        // где водитель не создан (не введено хотя бы имя)
 
-        //buses
-
-        Bus mercedes = new Bus("Mercedes", "", 1987, "Germany");
-        System.out.println("\nmercedes = " + mercedes);
-        Bus paz = new Bus("PAZ", "1983c", 1956, "USSR", "black", 86, 44, "Highway to Hell", true, true, 9_956);
-        System.out.println("\npaz = " + paz);
-        Bus randomBus = new Bus("", "", 0, "");
-        System.out.println("\nrandomBus = " + randomBus);
-
-        //moto
-
-        Moto suzuki = new Moto("Suzuki", "a418", 2018, "Japan", "red", 364);
-        System.out.println("\nsuzuki = " + suzuki);
-        Moto randomMoto = new Moto("", "", 0, "");
-        System.out.println("\nrandomMoto = " + randomMoto);
-
+//        mercedes.startMoving(); // и тут тоже ошибка! Машины теперь не ездят без водителей, ура.
+        logan.toDrive();
     }
 }
+// Вот, что в консоли:
+
+//        Mike started the engine, pressed the pedal and drove.
+//        Aston Martin DB9 Carbon started moving.
+//        Aston Martin is moving right now.
+
+//        Car Aston Martin , model: DB9 Carbon , engineVolume: 3.6 has maximal speed. Mike looks like a winner.
+//        Car Aston Martin , model: DB9 Carbon , engineVolume: 3.6 has best time lap.
+//        Car Aston Martin , model: DB9 Carbon , engineVolume: 3.6 has been crashed. Mike is dead. Game over.
+
+//        Dilan started the engine, pressed the pedal and drove.
+//        ПАЗ 4234 started the engine and started moving on a route with all stops.
+//        ПАЗ is moving right now.
+//        Bus ПАЗ , model: 4234 , engineVolume: 4.3 has been crashed. Dilan is dead. Game over.
+
+//        John started the engine, pressed the pedal and drove.
+//        КамАЗ 54901 started the engine and started moving on a route.
+//        КамАЗ is moving right now.
+//        Truck КамАЗ , model: 54901 , engineVolume: 7.6 went to the pit-stop.John is smoking right now.
+//        Truck КамАЗ , model: 54901 , engineVolume: 7.6 has been crashed. John is dead. Game over.
+
+
+//        Driver John drives Truck КамАЗ , model: 54901 , engineVolume: 7.6 and will participate in the race.
+
+//        Driver Mike drives Car Aston Martin , model: DB9 Carbon , engineVolume: 3.6 and will participate in the race.
+
+//        Driver Alex drives Car Tesla , model: Model S , engineVolume: 3.2 and will participate in the race.
+
+//        Driver Dick drives Truck MAN , model: TGS 6X6 , engineVolume: 7.9 and will participate in the race.
+
+//        Driver Dilan drives Bus ПАЗ , model: 4234 , engineVolume: 4.3 and will participate in the race.
+
+//        Driver Dilan drives Bus ПАЗ , model: 4234 , engineVolume: 4.3 and will participate in the race.
+
+//        Driver Dilan drives Bus ЛиАЗ , model: 4292 , engineVolume: 4.4 and will participate in the race.
+
+//        Driver Morgan drives Bus MAN , model: Lion's City , engineVolume: 5.6 and will participate in the race.
+
+//        Driver Logan excluded.
+
+//        Exception in thread "main" java.lang.RuntimeException: Driver is not createdCar Mercedes , model: Benz S-Class , engineVolume: 4.2 is empty.
+
+//        at transport.Transport.getDriver(Transport.java:49)
+//        at transport.Car.startMoving(Car.java:19)
+//        at Main.main(Main.java:57)
+//
+//        Process finished with exit code 1

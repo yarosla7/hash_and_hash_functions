@@ -1,16 +1,18 @@
 package transport;
 
-public abstract class Transport {
+import driver.Driver;
+
+import java.util.Objects;
+
+public abstract class Transport<D extends Driver> implements Competing {
 
     private final String brand;
     private final String model;
-    private final int year;
-    private final String country;
-    private String color;
-    private int maxSpeed;
+    private double engineVolume;
+    private final D driver;
 
-    public Transport(String brand, String model, int year, String country, String color, int maxSpeed) {
-        if (brand == null || brand.isBlank() || brand.isEmpty()) {
+    public Transport(String brand, String model, double engineVolume, D driver) {
+        if (brand == null || brand.isEmpty() || brand.isBlank()) {
             this.brand = "default";
         } else {
             this.brand = brand;
@@ -22,75 +24,103 @@ public abstract class Transport {
             this.model = model;
         }
 
-        if (year > 0) {
-            this.year = year;
-        } else {
-            this.year = 2000;
-        }
+        setEngineVolume(engineVolume);
 
-        if (country == null || country.isBlank() || country.isEmpty()) {
-            this.country = "default";
-        } else {
-            this.country = country;
-        }
-
-        setColor(color);
-        setMaxSpeed(maxSpeed);
+        this.driver = driver; //если объект null
     }
 
-    public Transport(String brand, String model, int year, String country) {
-        this(brand, model, year, country, "white", 120);
-    }
+    public Transport(String brand, String model, double engineVolume) {
+        this(brand, model, engineVolume, (null));
+    } // специальный конструктор, чтобы не переделывать всё в main, ну, и учитывает, что транспорт может быть создан без водителя
 
-    public String getColor() {
-        return color;
-    }
-
-    public final void setColor(String color) {
-        if (color == null || color.isBlank() || color.isEmpty()) {
-            this.color = "white";
-        } else {
-            this.color = color;
-        }
-    }
-
-    public int getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public final void setMaxSpeed(int maxSpeed) {
-        if (maxSpeed <= 0) {
-            this.maxSpeed = 120;
-        } else {
-            this.maxSpeed = maxSpeed;
-        }
-    }
-
-    public final String getBrand() {
+    public String getBrand() {
+//Лавреньтьев, привет)
         return brand;
     }
 
-    public final String getModel() {
+    public String getModel() {
         return model;
     }
 
-    public final int getYear() {
-        return year;
+    public double getEngineVolume() {
+        return engineVolume;
     }
 
-    public final String getCountry() {
-        return country;
+    public D getDriver() {
+        if (driver == null) {
+            throw new RuntimeException("Driver is not created" + this + " is empty.");
+        } else {
+            return driver;
+        }
+    }
+
+    public void setEngineVolume(double engineVolume) {
+        if (engineVolume <= 0.0) {
+            this.engineVolume = 1.5;
+        } else {
+            this.engineVolume = engineVolume;
+        }
+    }
+
+    public void startMoving() {
+        getDriver().toDrive();
+        System.out.println(getBrand() + " " + getModel() + " started the engine and started moving on a route with all stops.");
+        System.out.println(getBrand() + " is moving right now.");
+    }
+
+    public void endMoving() {
+        getDriver().stopVehicle();
+        System.out.println(getBrand() + " " + getModel() + " slows down.");
+        System.out.println(getBrand() + " " + getModel() + "  has stopped.");
     }
 
     @Override
     public String toString() {
-        return "Transport{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", year=" + year +
-                ", country='" + country + '\'' +
-                ", color='" + color + '\'' +
-                ", maxSpeed=" + maxSpeed +
-                '}';
+        return brand + ' ' +
+                ", model: " + model + ' ' +
+                ", engineVolume: " + engineVolume;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transport<?> transport = (Transport<?>) o;
+        return Double.compare(transport.engineVolume, engineVolume) == 0 && Objects.equals(brand, transport.brand) && Objects.equals(model, transport.model) && Objects.equals(driver, transport.driver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, model, engineVolume, driver);
+    }
+// методы интерфейса:
+
+    @Override
+    public void pitStop() {
+        System.out.println(this + " went to the pit-stop." + getDriver().getFullName() + " is smoking right now.");
+    }
+
+    @Override
+    public void bestLapTime() {
+        System.out.println(this + " has best time lap.");
+    }
+
+    @Override
+    public void maxSpeed() {
+        System.out.println(this + " has maximal speed. " + getDriver().getFullName() + " looks like a winner.");
+    }
+
+    @Override
+    public void crashed() {
+        System.out.println(this + " has been crashed. " + getDriver().getFullName() + " is dead. Game over.");
+    } // не самый позитивный сценарий, но, тем не менее, вероятный
+
+    // driver
+    public void willParticipate(D driver) {
+        if (driver.isHasDrivesLicense()) {
+            System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
+        } else {
+            System.out.println("Driver " + driver.getFullName() + " excluded.");
+        }
     }
 }
