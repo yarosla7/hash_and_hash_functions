@@ -119,8 +119,11 @@ public abstract class Transport<D extends Driver> implements Competing {
     public void willParticipate(D driver) {
         if (driver.isHasDrivesLicense()) {
             System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
+            printType();
         } else {
             System.out.println("Driver " + driver.getFullName() + " excluded.");
         }
     }
+
+    public abstract void printType();
 }
