@@ -1,5 +1,6 @@
 package transport;
 
+import driver.CheckLicenseException;
 import driver.LicenseC;
 
 public class Truck extends Transport<LicenseC> {
@@ -31,6 +32,16 @@ public class Truck extends Transport<LicenseC> {
             String from = weight.getFrom() == null ? "" : "from " + weight.getFrom() + " ";
             String to = weight.getTo() == null ? "" : "to " + weight.getFrom();
             System.out.println("Truck load weight:" + from + to + " tons.");
+        }
+    }
+
+    @Override
+    public void passDiagnostics() throws CheckLicenseException {
+        if (!getDriver().isHasDrivesLicense()) {
+            throw new CheckLicenseException("License from " + getDriver().getFullName() + " : 404 not found.");
+        } else {
+            System.out.println(getBrand() + " " + getModel() + " undergoes diagnostics.");
+            System.out.println(getBrand() + " " + getModel() + " completed diagnostics.");
         }
     }
 

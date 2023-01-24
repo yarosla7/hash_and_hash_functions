@@ -5,9 +5,10 @@ public class LicenseC extends Driver {
         super(fullName);
     }
 
-    public LicenseC(String fullName, boolean hasDrivesLicense, double experienceYear) {
+    public LicenseC(String fullName, boolean hasDrivesLicense, double experienceYear) throws CheckLicenseException {
         super(fullName, hasDrivesLicense, experienceYear);
     }
+
     @Override
     public String toString() {
         return "LicenseC{} " + super.toString();

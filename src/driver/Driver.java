@@ -18,7 +18,7 @@ public abstract class Driver {
         this.experienceYear = 0.0;
     }
 
-    public Driver(String fullName, boolean hasDrivesLicense, double experienceYear) {
+    public Driver(String fullName, boolean hasDrivesLicense, double experienceYear) throws CheckLicenseException {
         this(fullName);
         this.hasDrivesLicense = hasDrivesLicense;
         setExperienceYear(experienceYear);
@@ -45,24 +45,25 @@ public abstract class Driver {
     }
 
     public void setExperienceYear(double experienceYear) {
+
         if (isHasDrivesLicense()) {
             this.experienceYear = experienceYear;
         } else {
-            System.out.println("No license = no experience");
+            System.out.println(getFullName() + " have no license = no license no experience");
         }
     }
 
     //методы водителей:
 
-    public void toDrive() {
+    public void toDrive() throws CheckLicenseException {
         if (isHasDrivesLicense() || getExperienceYear() >= 0.1) {
             System.out.println(getFullName() + " started the engine, pressed the pedal and drove.");
         } else {
-            System.out.println("No license B = no drive.");
+            System.out.println("No license = no drive.");
         }
     }
 
-    public void stopVehicle() {
+    public void stopVehicle() throws CheckLicenseException {
         if (!isHasDrivesLicense() && getExperienceYear() == 0.0) {
             throw new RuntimeException("Nothing to stop");
         } else {
@@ -70,7 +71,7 @@ public abstract class Driver {
         }
     }
 
-    public void refuelTheVehicle() {
+    public void refuelTheVehicle() throws CheckLicenseException {
         if (!isHasDrivesLicense() && getExperienceYear() <= 0.0) {
             throw new RuntimeException("Nothing to refuel");
         } else {

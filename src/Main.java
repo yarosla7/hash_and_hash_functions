@@ -1,3 +1,4 @@
+import driver.CheckLicenseException;
 import driver.LicenseB;
 import driver.LicenseC;
 import driver.LicenseD;
@@ -6,7 +7,7 @@ import transport.Car;
 import transport.Truck;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CheckLicenseException {
 
         Bus paz = new Bus("ПАЗ", "4234", 4.3, new LicenseD("Dilan", true, 6), Bus.Capacity.SMALL);
         Bus manBus = new Bus("MAN", "Lion's City", 5.6, new LicenseD("Fagot"), Bus.Capacity.LARGE);
@@ -27,9 +28,10 @@ public class Main {
 
         LicenseD morgan = new LicenseD("Morgan", true, 5);
         LicenseD dilan = new LicenseD("Dilan", true, 6);
-        LicenseB logan = new LicenseB("Logan");
+        LicenseB logan = new LicenseB("Logan", true, 1);
+        LicenseB nik = new LicenseB("Nikita", true, 1);
 //testing:
-        aston.startMoving();
+ /*       aston.startMoving();
         aston.maxSpeed();
         aston.bestLapTime();
         aston.crashed();
@@ -48,7 +50,18 @@ public class Main {
         paz.willParticipate(dilan);
         paz.willParticipate(paz.getDriver());
         liaz.willParticipate(dilan);
-        manBus.willParticipate(morgan);
-        audi.willParticipate(logan);
+        manBus.willParticipate(morgan);*/
+        //exceptions:
+
+        try {
+            aston.passDiagnostics();
+            tesla.passDiagnostics();
+            kamaz.passDiagnostics();
+            manBus.passDiagnostics();
+        } catch (CheckLicenseException | UnsupportedOperationException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Diagnostic is complete.");
+        }
     }
 }

@@ -32,6 +32,11 @@ public class Bus extends Transport<LicenseD> {
     }
 
     @Override
+    public void passDiagnostics() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Busses can't pass diagnostics.");
+    }
+
+    @Override
     public String toString() {
         return "Bus " + super.toString();
     }

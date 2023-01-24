@@ -1,5 +1,6 @@
 package transport;
 
+import driver.CheckLicenseException;
 import driver.LicenseB;
 
 public class Car extends Transport<LicenseB> {
@@ -9,6 +10,7 @@ public class Car extends Transport<LicenseB> {
         super(brand, model, engineVolume, driver);
         this.bodyType = bodyType;
     }
+
 
     public Car(String brand, String model, double engineVolume, BodyType bodyType) {
         super(brand, model, engineVolume);
@@ -34,6 +36,16 @@ public class Car extends Transport<LicenseB> {
             System.out.println("Not enough car data.");
         } else {
             System.out.println("Body type of car: " + bodyType.getBodyType());
+        }
+    }
+
+    @Override
+    public void passDiagnostics() throws CheckLicenseException {
+        if (!getDriver().isHasDrivesLicense()) {
+            throw new CheckLicenseException("License from " + getDriver().getFullName() + " : 404 not found.");
+        } else {
+            System.out.println(getBrand() + " " + getModel() + " undergoes diagnostics.");
+            System.out.println(getBrand() + " " + getModel() + " completed diagnostics.");
         }
     }
 

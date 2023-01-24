@@ -1,5 +1,6 @@
 package transport;
 
+import driver.CheckLicenseException;
 import driver.Driver;
 
 import java.util.Objects;
@@ -48,7 +49,7 @@ public abstract class Transport<D extends Driver> implements Competing {
 
     public D getDriver() {
         if (driver == null) {
-            throw new RuntimeException("Driver is not created" + this + " is empty.");
+            throw new RuntimeException("Driver is not created. " + this + " is empty.");
         } else {
             return driver;
         }
@@ -62,13 +63,19 @@ public abstract class Transport<D extends Driver> implements Competing {
         }
     }
 
-    public void startMoving() {
-        getDriver().toDrive();
-        System.out.println(getBrand() + " " + getModel() + " started the engine and started moving on a route with all stops.");
-        System.out.println(getBrand() + " is moving right now.");
+    public void startMoving(D driver) throws CheckLicenseException {
+        //    getDriver().toDrive();
+        if (driver.isHasDrivesLicense()) {
+            System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
+            printType();
+            System.out.println(getBrand() + " " + getModel() + " started the engine and started moving on a route with all stops.");
+            System.out.println(getBrand() + " is moving right now.");
+        } else {
+            System.out.println("Driver " + driver.getFullName() + " excluded.");
+        }
     }
 
-    public void endMoving() {
+    public void endMoving() throws CheckLicenseException {
         getDriver().stopVehicle();
         System.out.println(getBrand() + " " + getModel() + " slows down.");
         System.out.println(getBrand() + " " + getModel() + "  has stopped.");
@@ -116,14 +123,16 @@ public abstract class Transport<D extends Driver> implements Competing {
     } // не самый позитивный сценарий, но, тем не менее, вероятный
 
     // driver
-    public void willParticipate(D driver) {
+    public void willParticipate(D driver) throws CheckLicenseException {
         if (driver.isHasDrivesLicense()) {
             System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
             printType();
         } else {
-            System.out.println("Driver " + driver.getFullName() + " excluded.");
+            throw new CheckLicenseException("Driver " + driver.getFullName() + " excluded, cause no license found.");
         }
     }
 
     public abstract void printType();
+
+    public abstract void passDiagnostics() throws CheckLicenseException;
 }

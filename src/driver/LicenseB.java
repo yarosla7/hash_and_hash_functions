@@ -5,12 +5,12 @@ public class LicenseB extends Driver {
         super(fullName);
     }
 
-    public LicenseB(String fullName, boolean hasDrivesLicense, double experienceYear) {
+    public LicenseB(String fullName, boolean hasDrivesLicense, double experienceYear) throws CheckLicenseException {
         super(fullName, hasDrivesLicense, experienceYear);
     }
 
     @Override
-    public void toDrive() {
+    public void toDrive() throws CheckLicenseException {
         if (isHasDrivesLicense() || getExperienceYear() >= 0.1) {
             System.out.println(getFullName() + " seat in a car(!), started the engine, pressed the pedal and drove.");
         } else {
@@ -18,7 +18,7 @@ public class LicenseB extends Driver {
         }
     }
 
-    public void stopVehicle() {
+    public void stopVehicle() throws CheckLicenseException {
         if (!isHasDrivesLicense() && getExperienceYear() == 0.0) {
             throw new RuntimeException("Nothing to stop");
         } else {
@@ -26,7 +26,7 @@ public class LicenseB extends Driver {
         }
     }
 
-    public void refuelTheVehicle() {
+    public void refuelTheVehicle() throws CheckLicenseException {
         if (!isHasDrivesLicense() && getExperienceYear() <= 0.0) {
             throw new RuntimeException("Nothing to refuel");
         } else {
