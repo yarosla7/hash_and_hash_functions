@@ -53,7 +53,7 @@ public class Main {
         manBus.willParticipate(morgan);*/
         //exceptions:
 
-        try {
+/*        try {
             aston.passDiagnostics();
             tesla.passDiagnostics();
             kamaz.passDiagnostics();
@@ -62,6 +62,6 @@ public class Main {
             System.out.println(e.getMessage());
         } finally {
             System.out.println("Diagnostic is complete.");
-        }
+        }*/
     }
 }
