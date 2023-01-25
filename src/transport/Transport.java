@@ -1,12 +1,10 @@
 package transport;
+
 import driver.CheckLicenseException;
 import driver.Driver;
 import transport.stuff.Mechanic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Transport<D extends Driver> implements Competing {
 
@@ -14,7 +12,12 @@ public abstract class Transport<D extends Driver> implements Competing {
     private final String model;
     private double engineVolume;
     private final D driver;
-    private final List<Mechanic<?>> mechanicsList = new ArrayList<>();
+    private final Map<Transport<?>, Mechanic<?>> carsAndMechanicList = new HashMap<>();
+    private final List<Mechanic<?>> defaultMechanic = new ArrayList<>(); // чтобы механик всегда был
+
+    public List<Mechanic<?>> getDefaultMechanic() {
+        return defaultMechanic;
+    }
 
     public Transport(String brand, String model, D driver) {
         this.brand = brand;
@@ -97,19 +100,29 @@ public abstract class Transport<D extends Driver> implements Competing {
 
     //list
 
-    public List<Mechanic<?>> getMechanicsList() {
-        return mechanicsList;
+    public Map<Transport<?>, Mechanic<?>> getMechanicsList() {
+        return carsAndMechanicList;
     }
 
-    public void addMechanics(Mechanic<?>... mechanics) {
-        mechanicsList.addAll(Arrays.asList(mechanics));
+    public void addMechanics(Transport<?> transport, Mechanic<?> mechanic) {
+        if (transport == null || carsAndMechanicList.containsKey(transport)) {
+            carsAndMechanicList.put(transport, mechanic);
+            System.out.println("For " + transport.getBrand() + " " + transport.getModel() + " set new mechanic. Mechanic's name is " + mechanic.getName() + " and company is " + mechanic.getCompany() + ".");
+        } else {
+            System.out.println("Transport is not found.");
+        }
+    } // я тупой))
+
+    public void addDefMec(Mechanic<?> mechanic) {
+        defaultMechanic.add(mechanic);
     }
 
     @Override
     public String toString() {
-        return brand + ' ' +
-                ", model: " + model + ' ' +
-                ", engineVolume: " + engineVolume;
+        return "Transport: " +
+                "brand is " + brand + " model is " + model + '.' +
+                " EngineVolume equals " + engineVolume +
+                ", and driver of this vehicle is " + driver + ".";
     }
 
     @Override
@@ -117,14 +130,15 @@ public abstract class Transport<D extends Driver> implements Competing {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transport<?> transport = (Transport<?>) o;
-        return Double.compare(transport.engineVolume, engineVolume) == 0 && Objects.equals(brand, transport.brand) && Objects.equals(model, transport.model) && Objects.equals(driver, transport.driver);
+        return Double.compare(transport.engineVolume, engineVolume) == 0 && Objects.equals(brand, transport.brand) && Objects.equals(model, transport.model) && Objects.equals(driver, transport.driver) && Objects.equals(carsAndMechanicList, transport.carsAndMechanicList) && Objects.equals(defaultMechanic, transport.defaultMechanic);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(brand, model, engineVolume, driver);
+        return Objects.hash(brand, model, engineVolume, driver, carsAndMechanicList, defaultMechanic);
     }
-// методы интерфейса:
+
+    // методы интерфейса:
 
     @Override
     public void pitStop() {
@@ -161,6 +175,6 @@ public abstract class Transport<D extends Driver> implements Competing {
     public abstract void passDiagnostics() throws CheckLicenseException;
 
     public void printImportantInfo() {
-        System.out.println("Transport is: "+ getBrand() + " " + getModel() + " and its driver - " + getDriver().getFullName() + ". Mechanics team: " + getMechanicsList());
+        System.out.println("Transport is: " + getBrand() + " " + getModel() + " and its driver - " + getDriver().getFullName() + ". Mechanics team: " + getMechanicsList());
     }
 }

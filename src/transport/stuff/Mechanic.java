@@ -52,9 +52,6 @@ public class Mechanic<T extends Transport>  {
 
     @Override
     public String toString() {
-        return "Mechanic{" +
-                "name='" + name + '\'' +
-                ", company='" + company + '\'' +
-                '}';
+        return " Mechanic name is " + name + ", and company is " + company + ".";
     }
 }

@@ -81,11 +81,12 @@ public abstract class Driver {
 
     @Override
     public String toString() {
-        return "Driver{" +
-                "fullName='" + fullName + '\'' +
-                ", hasDrivesLicense=" + hasDrivesLicense +
-                ", experienceYear=" + experienceYear +
-                '}';
+        if (getFullName() != null) {
+            return "Driver's " +
+                    " fullName is " + fullName + ", he  has Drives License - " + hasDrivesLicense +
+                    ", and experienceYear is " + experienceYear +" years.";
+        }
+        return "The driver is not found.";
     }
 
     @Override
@@ -99,5 +100,9 @@ public abstract class Driver {
     @Override
     public int hashCode() {
         return Objects.hash(fullName, hasDrivesLicense, experienceYear);
+    }
+
+    public boolean isNull() {
+        return false;
     }
 }
