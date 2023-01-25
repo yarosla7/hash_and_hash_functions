@@ -1,8 +1,11 @@
 package transport;
-
 import driver.CheckLicenseException;
 import driver.Driver;
+import transport.stuff.Mechanic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Transport<D extends Driver> implements Competing {
@@ -11,8 +14,18 @@ public abstract class Transport<D extends Driver> implements Competing {
     private final String model;
     private double engineVolume;
     private final D driver;
+    private final List<Mechanic<?>> mechanicsList = new ArrayList<>();
 
-    public Transport(String brand, String model, double engineVolume, D driver) {
+    public Transport(String brand, String model, D driver) {
+        this.brand = brand;
+        this.model = model;
+        this.driver = driver;
+    }
+
+    public Transport(String brand,
+                     String model,
+                     double engineVolume,
+                     D driver) {
         if (brand == null || brand.isEmpty() || brand.isBlank()) {
             this.brand = "default";
         } else {
@@ -27,11 +40,13 @@ public abstract class Transport<D extends Driver> implements Competing {
 
         setEngineVolume(engineVolume);
 
-        this.driver = driver; //если объект null
+        this.driver = driver;
+
     }
 
     public Transport(String brand, String model, double engineVolume) {
         this(brand, model, engineVolume, (null));
+
     } // специальный конструктор, чтобы не переделывать всё в main, ну, и учитывает, что транспорт может быть создан без водителя
 
     public String getBrand() {
@@ -64,7 +79,6 @@ public abstract class Transport<D extends Driver> implements Competing {
     }
 
     public void startMoving(D driver) throws CheckLicenseException {
-        //    getDriver().toDrive();
         if (driver.isHasDrivesLicense()) {
             System.out.println("Driver " + driver.getFullName() + " drives " + this + " and will participate in the race.");
             printType();
@@ -79,6 +93,16 @@ public abstract class Transport<D extends Driver> implements Competing {
         getDriver().stopVehicle();
         System.out.println(getBrand() + " " + getModel() + " slows down.");
         System.out.println(getBrand() + " " + getModel() + "  has stopped.");
+    }
+
+    //list
+
+    public List<Mechanic<?>> getMechanicsList() {
+        return mechanicsList;
+    }
+
+    public void addMechanics(Mechanic<?>... mechanics) {
+        mechanicsList.addAll(Arrays.asList(mechanics));
     }
 
     @Override
@@ -135,4 +159,8 @@ public abstract class Transport<D extends Driver> implements Competing {
     public abstract void printType();
 
     public abstract void passDiagnostics() throws CheckLicenseException;
+
+    public void printImportantInfo() {
+        System.out.println("Transport is: "+ getBrand() + " " + getModel() + " and its driver - " + getDriver().getFullName() + ". Mechanics team: " + getMechanicsList());
+    }
 }
