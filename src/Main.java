@@ -1,10 +1,6 @@
 import driver.*;
-import transport.Bus;
-import transport.Car;
-import transport.Transport;
-import transport.Truck;
+import transport.*;
 import transport.stuff.Mechanic;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +66,7 @@ public class Main {
 
         //lists:
 
-        List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
+ /*       List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
         List<Driver> driverList = new ArrayList<>();
 
         for (Transport<?> car : forRace) {
@@ -89,6 +85,15 @@ public class Main {
         david.performMaintenance(sollers); // проводит тех обслуживание одной
 
         aston.addMechanics(david, mechanic1, mechanic2);
-        aston.printImportantInfo(); // вывод в консоль название, бренд автомобиля, имя водителя и команды механиков
+        aston.printImportantInfo(); // вывод в консоль название, бренд автомобиля, имя водителя и команды механиков*/
+
+        //queue :
+        ServiceStation<Transport<?>> serviceStation = new ServiceStation<>();
+        serviceStation.addTransport(kamaz); //к авто не добавлен механик, но он будет по дефолту из метода
+        serviceStation.addTransport(manTruck);
+        serviceStation.addTransport(tesla);
+        serviceStation.addTransport(aston);
+        serviceStation.addTransport(paz); // проверка на автобусы (выдает UnsupportedOperationException: Busses can't pass diagnostics.)
+        serviceStation.doServiceInspection();
     }
 }

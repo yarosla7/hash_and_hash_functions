@@ -45,7 +45,6 @@ public class Car extends Transport<LicenseB> {
             throw new CheckLicenseException("License from " + getDriver().getFullName() + " : 404 not found.");
         } else {
             System.out.println(getBrand() + " " + getModel() + " undergoes diagnostics.");
-            System.out.println(getBrand() + " " + getModel() + " completed diagnostics.");
         }
     }
 
