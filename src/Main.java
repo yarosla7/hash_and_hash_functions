@@ -30,42 +30,6 @@ public class Main {
         LicenseB nik = new LicenseB("Nikita", true, 1);
         //testing:
 
- /*       aston.startMoving();
-        aston.maxSpeed();
-        aston.bestLapTime();
-        aston.crashed();
-
-        paz.startMoving();
-        paz.crashed();
-
-        kamaz.startMoving();
-        kamaz.pitStop();
-        kamaz.crashed();
-
-        kamaz.willParticipate(kamaz.getDriver());
-        aston.willParticipate(aston.getDriver());
-        tesla.willParticipate(tesla.getDriver());
-        manTruck.willParticipate(manTruck.getDriver());
-        paz.willParticipate(dilan);
-        paz.willParticipate(paz.getDriver());
-        liaz.willParticipate(dilan);
-        manBus.willParticipate(morgan);*/
-
-        //exceptions:
-
-/*        try {
-            aston.passDiagnostics();
-            tesla.passDiagnostics();
-            kamaz.passDiagnostics();
-            manBus.passDiagnostics();
-        } catch (CheckLicenseException | UnsupportedOperationException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Diagnostic is complete.");
-        }*/
-
-        //lists:
-
  /*       List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
         List<Driver> driverList = new ArrayList<>();
 
