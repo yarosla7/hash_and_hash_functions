@@ -1,10 +1,12 @@
-import driver.CheckLicenseException;
-import driver.LicenseB;
-import driver.LicenseC;
-import driver.LicenseD;
+import driver.*;
 import transport.Bus;
 import transport.Car;
+import transport.Transport;
 import transport.Truck;
+import transport.stuff.Mechanic;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws CheckLicenseException {
@@ -30,7 +32,8 @@ public class Main {
         LicenseD dilan = new LicenseD("Dilan", true, 6);
         LicenseB logan = new LicenseB("Logan", true, 1);
         LicenseB nik = new LicenseB("Nikita", true, 1);
-//testing:
+        //testing:
+
  /*       aston.startMoving();
         aston.maxSpeed();
         aston.bestLapTime();
@@ -51,6 +54,7 @@ public class Main {
         paz.willParticipate(paz.getDriver());
         liaz.willParticipate(dilan);
         manBus.willParticipate(morgan);*/
+
         //exceptions:
 
 /*        try {
@@ -63,5 +67,28 @@ public class Main {
         } finally {
             System.out.println("Diagnostic is complete.");
         }*/
+
+        //lists:
+
+        List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
+        List<Driver> driverList = new ArrayList<>();
+
+        for (Transport<?> car : forRace) {
+            driverList.add(car.getDriver());
+        } // идёт по списку и добавляет в список водителей, водителей созданных в конструкторе транспорта
+        driverList.add(morgan);
+        driverList.add(dilan);
+        driverList.add(logan);
+        driverList.add(nik); //добавил еще тех, кого создал отдельно
+        System.out.println(driverList);
+
+        Mechanic<Transport<?>> david = new Mechanic<>("David", "Shell");
+        Mechanic<Transport<?>> mechanic1 = new Mechanic<>("Trap");
+        Mechanic<Transport<?>> mechanic2 = new Mechanic<>("Destroyer", "Nasa");
+        david.fixTheCar(aston, sollers, mercedes); //чинит сразу несколько машин
+        david.performMaintenance(sollers); // проводит тех обслуживание одной
+
+        aston.addMechanics(david, mechanic1, mechanic2);
+        aston.printImportantInfo(); // вывод в консоль название, бренд автомобиля, имя водителя и команды механиков
     }
 }
