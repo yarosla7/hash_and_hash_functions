@@ -1,10 +1,15 @@
 import driver.*;
 import transport.*;
 import transport.stuff.Mechanic;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
+
+
     public static void main(String[] args) throws CheckLicenseException {
 
         Bus paz = new Bus("ПАЗ", "4234", 4.3, new LicenseD("Dilan", true, 6), Bus.Capacity.SMALL);
@@ -14,7 +19,7 @@ public class Main {
 
 
         Car aston = new Car("Aston Martin", "DB9 Carbon", 3.6, new LicenseB("Mike", true, 3), Car.BodyType.SEDAN);
-        Car audi = new Car("Audi", "S1 Quattro", 4.4, Car.BodyType.CROSSOVER);
+        Car audi = new Car("Audi", "S1 Quattro", 4.4, new LicenseB("Johny", true, 3), Car.BodyType.CROSSOVER);
         Car tesla = new Car("Tesla", "Model S", 3.2, new LicenseB("Alex", true, 2), Car.BodyType.SEDAN);
         Car mercedes = new Car("Mercedes", "Benz S-Class", 4.2, Car.BodyType.HATCHBACK);
 
@@ -30,34 +35,43 @@ public class Main {
         LicenseB nik = new LicenseB("Nikita", true, 1);
         //testing:
 
- /*       List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
-        List<Driver> driverList = new ArrayList<>();
-
-        for (Transport<?> car : forRace) {
-            driverList.add(car.getDriver());
-        } // идёт по списку и добавляет в список водителей, водителей созданных в конструкторе транспорта
-        driverList.add(morgan);
-        driverList.add(dilan);
-        driverList.add(logan);
-        driverList.add(nik); //добавил еще тех, кого создал отдельно
-        System.out.println(driverList);
-
+//        List<Transport<?>> forRace = List.of(kamaz, manTruck, paz, manBus, aston, tesla); //список машин для гонок (с водителями)
+//        List<Driver> driverList = new ArrayList<>();
+//
+//        for (Transport<?> car : forRace) {
+//            driverList.add(car.getDriver());
+//        } // идёт по списку и добавляет в список водителей, водителей созданных в конструкторе транспорта
+//        driverList.add(morgan);
+//        driverList.add(dilan);
+//        driverList.add(logan);
+//        driverList.add(nik); //добавил еще тех, кого создал отдельно
+//        System.out.println(driverList);
         Mechanic<Transport<?>> david = new Mechanic<>("David", "Shell");
         Mechanic<Transport<?>> mechanic1 = new Mechanic<>("Trap");
         Mechanic<Transport<?>> mechanic2 = new Mechanic<>("Destroyer", "Nasa");
-        david.fixTheCar(aston, sollers, mercedes); //чинит сразу несколько машин
-        david.performMaintenance(sollers); // проводит тех обслуживание одной
-
-        aston.addMechanics(david, mechanic1, mechanic2);
-        aston.printImportantInfo(); // вывод в консоль название, бренд автомобиля, имя водителя и команды механиков*/
+//        david.fixTheCar(aston, sollers, mercedes); //чинит сразу несколько машин
+//        david.performMaintenance(sollers); // проводит тех обслуживание одной
+//
+//        aston.printImportantInfo(); // вывод в консоль название, бренд автомобиля, имя водителя и команды механиков
 
         //queue :
         ServiceStation<Transport<?>> serviceStation = new ServiceStation<>();
-        serviceStation.addTransport(kamaz); //к авто не добавлен механик, но он будет по дефолту из метода
-        serviceStation.addTransport(manTruck);
-        serviceStation.addTransport(tesla);
+//        serviceStation.addTransport(kamaz); //к авто не добавлен механик, но он будет по дефолту из метода
+//        serviceStation.addTransport(manTruck);
+//        serviceStation.addTransport(tesla);
         serviceStation.addTransport(aston);
-        serviceStation.addTransport(paz); // проверка на автобусы (выдает UnsupportedOperationException: Busses can't pass diagnostics.)
-        serviceStation.doServiceInspection();
+        //  serviceStation.addTransport(paz); // проверка на автобусы (выдает UnsupportedOperationException: Busses can't pass diagnostics.)
+        //  serviceStation.doServiceInspection();
+
+        //hashMap:
+        Mechanic<Transport<?>> david2 = new Mechanic<>("David", "Shell");
+        Map<Transport<?>, Mechanic<?>> t = new HashMap<>();
+        t.put(aston, david);
+        t.put(sollers, new Mechanic<>("Slava"));
+        t.put(aston, mechanic1);
+        t.put(kamaz, mechanic2);
+        t.put(dongfeng, mechanic1);
+        System.out.println(t); //в консоли объекты не повторяются. (идея подчеркивает даже
+
     }
 }
